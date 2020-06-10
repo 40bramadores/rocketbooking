@@ -57,4 +57,19 @@ public class EventoController {
         return new ResponseEntity(eventoObtenido, HttpStatus.OK);
     }
 
+    @GetMapping(path = "{id}/tickets")
+    @ResponseBody
+    public ResponseEntity getTicketDisponibles (@PathVariable("id") Integer id)
+    {
+        if (!ticketService.getCantidadDeTicketsDisponibles(id).isEmpty())
+        {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(ticketService.getCantidadDeTicketsDisponibles(id));
+        }
+        else
+        {
+            return ResponseEntity.noContent().build();
+        }
+    }
 }

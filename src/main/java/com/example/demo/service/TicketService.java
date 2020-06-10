@@ -14,9 +14,10 @@ public class TicketService {
    @Autowired
    TicketRepository ticketRepository;
 
-   public Ticket crearTicket (Ticket ticket) { return ticketRepository.save(ticket); }
-
-   public Optional<Ticket> getTicket (Integer id) { return ticketRepository.findById(id); }
+   public Ticket crearTicket (Ticket ticket)
+   {
+      return ticketRepository.save(ticket);
+   }
 
    public Collection<Ticket> getCantidadDeTicketsDisponibles (Integer idEvento)
    {

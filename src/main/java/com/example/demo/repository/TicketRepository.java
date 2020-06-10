@@ -10,10 +10,10 @@ import java.util.Collection;
 @Repository
 public interface TicketRepository extends CrudRepository<Ticket, Integer> {
 
-    @Query(value = "SELECT * FROM TICKET WHERE reserva_id is NULL AND  venue_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM TICKET WHERE reserva_id is NULL AND  evento_id = ?1", nativeQuery = true)
     Collection<Ticket> findByReservaIsNull(Integer idEvento);
 
-    @Query(value = "SELECT * FROM TICKET WHERE reserva_id is NULL AND  venue_id = ?1 LIMIT ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM TICKET WHERE reserva_id is NULL AND  evento_id = ?1 LIMIT ?2", nativeQuery = true)
     Collection<Ticket> findXByReservaIsNull(Integer id, Integer cantidad);
 
 

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 @RequestMapping("api/v1/cliente")
-@CrossOrigin(origins = {"http://localhost:3000"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ClienteController {
 
@@ -34,4 +34,32 @@ public class ClienteController {
         Optional<Cliente> clienteObtenido = clienteService.getCliente(id);
         return new ResponseEntity(clienteObtenido, HttpStatus.OK);
     }
+
+    @DeleteMapping(path = "{id}")
+    public ResponseEntity borrarCliente(@PathVariable("id") Integer id)
+    {
+        if (getCliente(id) != null)
+        {
+            clienteService.borrarCliente(id);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        else
+        {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @PutMapping(path = "{id}")
+    public ResponseEntity<Cliente> editarcliente(@PathVariable("id") Integer id, @NonNull @RequestBody Cliente cliente)
+    {
+        if (getCliente(id) != null)
+        {
+            return new ResponseEntity(clienteService.editarCliente(cliente), HttpStatus.OK);
+        }
+        else
+        {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
 }

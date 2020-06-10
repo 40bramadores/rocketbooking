@@ -25,4 +25,14 @@ public class ClienteService {
     {
         return clienteRepository.findById(id);
     }
+
+    public void borrarCliente(Integer id)
+    {
+        clienteRepository.deleteById(id);
+    }
+
+    public Cliente editarCliente (Cliente cliente)
+    {
+        return clienteRepository.save(cliente);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ public class Ticket {
     @JoinColumn(name = "venue_id")
     private Venue venue;
 
-    @ManyToOne(cascade = CascadeType.PERSIST    )
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn (name = "reserva_id")
     private Reserva reserva;
 

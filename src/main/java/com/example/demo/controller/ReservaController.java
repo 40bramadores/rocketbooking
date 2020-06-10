@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RequestMapping("api/v1/reserva")
-@CrossOrigin(origins = {"http://localhost:3000"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ReservaController {
 
@@ -35,22 +35,6 @@ public class ReservaController {
     @Autowired
     EventoService eventoService;
 
-    @GetMapping(path = "{id}/tickets")
-    @ResponseBody
-    public ResponseEntity getTicketDisponibles (@PathVariable("id") Integer id)
-    {
-        if (!ticketService.getCantidadDeTicketsDisponibles(id).isEmpty())
-        {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(ticketService.getCantidadDeTicketsDisponibles(id));
-        }
-        else
-        {
-            return ResponseEntity.noContent().build();
-        }
-    }
-
     @PostMapping
     @ResponseBody
     public ResponseEntity crearReserva (@NonNull @RequestBody ReservaCreationRequest reservaCreationRequest)
@@ -60,15 +44,18 @@ public class ReservaController {
             Reserva reserva = new Reserva (null,
                                             clienteService.getCliente(reservaCreationRequest.getIdCliente()).get(),
                                             eventoService.getEvento(reservaCreationRequest.getIdEvento()).get());
+
             Collection<Ticket> ticketsDisponibles = ticketService.getTicketsDisponibles(reservaCreationRequest.getIdEvento(), reservaCreationRequest.getCantidadDeTickets());
             Double precioFinal = 0d;
             ReservaCreationSuccess reservaCreationSuccess = new ReservaCreationSuccess(0d, null);
+
             for (Ticket ticket : ticketsDisponibles)
             {
                 precioFinal += ticket.getPrecio();
                 ticket.setReserva(reserva);
                 ticketService.crearTicket(ticket);
             }
+
             reservaCreationSuccess.setTicketsComprados((ArrayList<Ticket>) ticketsDisponibles);
             reservaCreationSuccess.setPrecioTotal(precioFinal);
             reserva.setPrecio(precioFinal);
@@ -82,4 +69,31 @@ public class ReservaController {
             }
     }
 
+    @GetMapping(path = "{id}")
+    @ResponseBody
+    public ResponseEntity getReserva (@PathVariable("id") Integer id)
+    {
+        Optional<Reserva> reservaObtenido = reservaService.getReserva(id);
+        return new ResponseEntity(reservaObtenido, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "{id}")
+    public ResponseEntity borrarReserva (@PathVariable("id") Integer id)
+    {
+        Optional<Reserva> reservaObtenido = reservaService.getReserva(id);
+
+        if (reservaObtenido != null)
+        {
+            for (Ticket ticket : reservaObtenido.get().getTickets())
+            {
+                ticket.setReserva(null);
+            }
+            reservaService.borrarReserva(id);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        else
+        {
+            return ResponseEntity.noContent().build();
+        }
+    }
 }

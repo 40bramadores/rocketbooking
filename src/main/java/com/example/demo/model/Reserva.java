@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +75,14 @@ public class Reserva {
 
     public void setEvento(Evento evento) {
         this.evento = evento;
+    }
+
+    @JsonIgnore
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 }

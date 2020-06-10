@@ -20,4 +20,9 @@ public class ReservaService {
     public Reserva crearReserva (Reserva reserva) { return reservaRepository.save(reserva); }
 
     public Optional<Reserva> getReserva (Integer id) { return reservaRepository.findById(id); }
+
+    public void borrarReserva (Integer id)
+    {
+        reservaRepository.deleteById(id);
+    }
 }
