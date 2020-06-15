@@ -18,10 +18,6 @@ public class Ticket {
     @Column (name = "precio", nullable = false)
     private Double precio;
 
-    @ManyToOne
-    @JoinColumn(name = "venue_id")
-    private Venue venue;
-
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn (name = "reserva_id")
     private Reserva reserva;
@@ -31,8 +27,7 @@ public class Ticket {
     private Evento evento;
 
     @Autowired
-    public Ticket(Venue venue, double precio, Reserva reserva, Evento evento) {
-        this.venue = venue;
+    public Ticket(double precio, Reserva reserva, Evento evento) {
         this.precio = precio;
         this.reserva = reserva;
         this.evento = evento;
@@ -49,14 +44,6 @@ public class Ticket {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Venue getVenue() {
-        return venue;
-    }
-
-    public void setVenue(Venue venue) {
-        this.venue = venue;
     }
 
     public Reserva getReserva() {

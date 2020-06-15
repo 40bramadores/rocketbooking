@@ -24,10 +24,6 @@ public class Venue {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Evento> eventos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "venue", fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Ticket> tickets = new ArrayList<>();
-
     @Autowired
     public Venue(String descripcion) {
         this.descripcion = descripcion;

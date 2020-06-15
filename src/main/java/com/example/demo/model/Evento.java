@@ -23,8 +23,6 @@ public class Evento {
     @Column(name = "descripcion")
     private String descripcion;
 
-
-
     @Autowired
     public Evento(LocalDate fecha, Venue venue, String descripcion) {
         this.fecha = fecha;

@@ -42,7 +42,7 @@ public class EventoController {
 
         for (int i = 0; i < eventCreationRequest.getCapacidad(); i++)
         {
-            Ticket ticket = new Ticket(venueDelEvento.get(), eventCreationRequest.getPrecio(),  null, eventoCreado);
+            Ticket ticket = new Ticket (eventCreationRequest.getPrecio(),  null, eventoCreado);
             ticketService.crearTicket(ticket);
         }
 

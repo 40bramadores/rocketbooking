@@ -41,9 +41,7 @@ public class ReservaController {
     {
         if (ticketService.getCantidadDeTicketsDisponibles(reservaCreationRequest.getIdEvento()).size() >= reservaCreationRequest.getCantidadDeTickets())
         {
-            Reserva reserva = new Reserva (null,
-                                            clienteService.getCliente(reservaCreationRequest.getIdCliente()).get(),
-                                            eventoService.getEvento(reservaCreationRequest.getIdEvento()).get());
+            Reserva reserva = new Reserva (null, clienteService.getCliente(reservaCreationRequest.getIdCliente()).get());
 
             Collection<Ticket> ticketsDisponibles = ticketService.getTicketsDisponibles(reservaCreationRequest.getIdEvento(), reservaCreationRequest.getCantidadDeTickets());
             Double precioFinal = 0d;
@@ -58,7 +56,7 @@ public class ReservaController {
 
             reservaCreationSuccess.setTicketsComprados((ArrayList<Ticket>) ticketsDisponibles);
             reservaCreationSuccess.setPrecioTotal(precioFinal);
-            reserva.setPrecio(precioFinal);
+            reserva.setPrecioFinal(precioFinal);
             reservaService.crearReserva(reserva);
 
             return new ResponseEntity(reservaCreationSuccess, HttpStatus.CREATED);
@@ -74,6 +72,14 @@ public class ReservaController {
     public ResponseEntity getReserva (@PathVariable("id") Integer id)
     {
         Optional<Reserva> reservaObtenido = reservaService.getReserva(id);
+
+        Double precioFinal = 0d;
+        for (Ticket ticket : reservaObtenido.get().getTickets())
+        {
+            precioFinal += ticket.getPrecio();
+        }
+        reservaObtenido.get().setPrecioFinal(precioFinal);
+
         return new ResponseEntity(reservaObtenido, HttpStatus.OK);
     }
 

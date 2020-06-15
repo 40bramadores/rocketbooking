@@ -18,26 +18,21 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column (name = "precio")
-    private Double precio;
+    @Transient
+    private Double precioFinal;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "cliente_id")
     private Cliente cliente;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "evento_id")
-    private Evento evento;
 
     @OneToMany(mappedBy = "reserva", fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Ticket> tickets = new ArrayList<>();
 
     @Autowired
-    public Reserva(Double precio, Cliente cliente, Evento evento) {
-        this.precio = precio;
+    public Reserva(Double precioFinal, Cliente cliente) {
+        this.precioFinal = precioFinal;
         this.cliente = cliente;
-        this.evento = evento;
     }
 
     @Autowired
@@ -53,12 +48,12 @@ public class Reserva {
         this.id = id;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public Double getPrecioFinal() {
+        return precioFinal;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setPrecioFinal(Double precio) {
+        this.precioFinal = precio;
     }
 
     public Cliente getCliente() {
@@ -67,14 +62,6 @@ public class Reserva {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public Evento getEvento() {
-        return evento;
-    }
-
-    public void setEvento(Evento evento) {
-        this.evento = evento;
     }
 
     @JsonIgnore
