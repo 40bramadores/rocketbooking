@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.controller.modelRequest.ReservaCreationRequest;
 import com.example.demo.controller.modelRequest.ReservaCreationSuccess;
+import com.example.demo.model.Cliente;
 import com.example.demo.model.Reserva;
 import com.example.demo.model.Ticket;
 import com.example.demo.service.ClienteService;
@@ -41,7 +42,14 @@ public class ReservaController {
     {
         if (ticketService.getCantidadDeTicketsDisponibles(reservaCreationRequest.getIdEvento()).size() >= reservaCreationRequest.getCantidadDeTickets())
         {
-            Reserva reserva = new Reserva (null, clienteService.getCliente(reservaCreationRequest.getIdCliente()).get());
+            Cliente cliente = clienteService.getClienteByNombreContainsAndEmailContains(reservaCreationRequest.getNombre(), reservaCreationRequest.getEmail()).orElse(null);
+            if (cliente == null)
+            {
+                Cliente clienteNuevo = new Cliente(reservaCreationRequest.getNombre(), reservaCreationRequest.getEmail());
+                clienteService.crearCliente(clienteNuevo);
+                cliente = clienteNuevo;
+            }
+            Reserva reserva = new Reserva (null, cliente);
 
             Collection<Ticket> ticketsDisponibles = ticketService.getTicketsDisponibles(reservaCreationRequest.getIdEvento(), reservaCreationRequest.getCantidadDeTickets());
             Double precioFinal = 0d;

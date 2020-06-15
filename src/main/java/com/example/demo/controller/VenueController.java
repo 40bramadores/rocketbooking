@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.util.Optional;
 
 @RequestMapping("api/v1/venue")
@@ -33,5 +34,14 @@ public class VenueController {
     {
         Optional<Venue> venueObtenido = venueService.getVenue(id);
         return new ResponseEntity(venueObtenido, HttpStatus.OK);
+    }
+
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity getAllVenue ()
+    {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(venueService.getAllVenue());
     }
 }

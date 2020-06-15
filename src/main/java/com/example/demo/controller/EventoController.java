@@ -72,4 +72,13 @@ public class EventoController {
             return ResponseEntity.noContent().build();
         }
     }
+
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity getAllEvento ()
+    {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(eventoService.getAllEvento());
+    }
 }

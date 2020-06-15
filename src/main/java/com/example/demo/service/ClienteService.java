@@ -35,4 +35,9 @@ public class ClienteService {
     {
         return clienteRepository.save(cliente);
     }
+
+    public Optional<Cliente> getClienteByNombreContainsAndEmailContains(String nombre, String email)
+    {
+        return clienteRepository.getClienteByNombreContainsAndEmailContains(nombre, email);
+    }
 }

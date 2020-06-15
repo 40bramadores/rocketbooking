@@ -16,4 +16,6 @@ public class EventoService {
     public Evento crearEvento (Evento evento) { return eventoRepository.save(evento); }
 
     public Optional<Evento> getEvento (Integer id) { return eventoRepository.findById(id); }
+
+    public Iterable<Evento> getAllEvento () { return eventoRepository.findAll(); }
 }
