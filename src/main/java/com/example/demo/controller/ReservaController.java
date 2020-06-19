@@ -42,7 +42,7 @@ public class ReservaController {
     {
         if (ticketService.getCantidadDeTicketsDisponibles(reservaCreationRequest.getIdEvento()).size() >= reservaCreationRequest.getCantidadDeTickets())
         {
-            Cliente cliente = clienteService.getClienteByNombreContainsAndEmailContains(reservaCreationRequest.getNombre(), reservaCreationRequest.getEmail()).orElse(null);
+            Cliente cliente = clienteService.findByNombreAndEmailEquals(reservaCreationRequest.getNombre(), reservaCreationRequest.getEmail()).orElse(null);
             if (cliente == null)
             {
                 Cliente clienteNuevo = new Cliente(reservaCreationRequest.getNombre(), reservaCreationRequest.getEmail());
@@ -50,6 +50,8 @@ public class ReservaController {
                 cliente = clienteNuevo;
             }
             Reserva reserva = new Reserva (null, cliente);
+
+            //Cambiar nombre de metodo de tickets disponibles
 
             Collection<Ticket> ticketsDisponibles = ticketService.getTicketsDisponibles(reservaCreationRequest.getIdEvento(), reservaCreationRequest.getCantidadDeTickets());
             Double precioFinal = 0d;
@@ -71,7 +73,8 @@ public class ReservaController {
         }
         else
             {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok()
+                        .body("No hay tickets disponibles");
             }
     }
 

@@ -11,6 +11,5 @@ import java.util.Optional;
 @Repository
 public interface ClienteRepository extends CrudRepository<Cliente, Integer> {
 
-    @Query(value = "SELECT * FROM CLIENTE WHERE nombre = ?1 AND email = ?2 LIMIT 1", nativeQuery = true)
-    Optional<Cliente> getClienteByNombreContainsAndEmailContains (String nombre, String email);
+    Optional<Cliente> findByNombreAndEmailEquals (String nombre, String email);
 }

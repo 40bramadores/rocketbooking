@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReservaRepository extends CrudRepository<Reserva, Integer> {
+
 }

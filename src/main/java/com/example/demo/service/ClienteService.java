@@ -36,8 +36,8 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Optional<Cliente> getClienteByNombreContainsAndEmailContains(String nombre, String email)
+    public Optional<Cliente> findByNombreAndEmailEquals(String nombre, String email)
     {
-        return clienteRepository.getClienteByNombreContainsAndEmailContains(nombre, email);
+        return clienteRepository.findByNombreAndEmailEquals(nombre, email);
     }
 }

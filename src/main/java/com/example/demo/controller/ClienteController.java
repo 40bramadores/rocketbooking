@@ -21,10 +21,19 @@ public class ClienteController {
     public ClienteController(ClienteService clienteService) { this.clienteService = clienteService; }
 
     @PostMapping
-    public ResponseEntity<Cliente> crearCliente (@NonNull @RequestBody Cliente cliente)
+    public ResponseEntity<?> crearCliente (@NonNull @RequestBody Cliente cliente)
     {
-        Cliente clienteCreado = clienteService.crearCliente(cliente);
-        return new ResponseEntity(clienteCreado, HttpStatus.CREATED);
+        Cliente clienteEncontrado = clienteService.findByNombreAndEmailEquals(cliente.getNombre(), cliente.getEmail()).orElse(null);
+        if (clienteEncontrado == null)
+        {
+            Cliente clienteCreado = clienteService.crearCliente(cliente);
+            return new ResponseEntity(clienteCreado, HttpStatus.CREATED);
+        }
+        else
+            {
+                return ResponseEntity.badRequest()
+                        .body("El cliente ya existe");
+            }
     }
 
     @GetMapping(path = "{id}")
@@ -45,7 +54,8 @@ public class ClienteController {
         }
         else
         {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.badRequest()
+                    .body("El cliente no existe");
         }
     }
 
