@@ -50,8 +50,8 @@ public class ReservaController {
                 cliente = clienteNuevo;
             }
             Reserva reserva = new Reserva (null, cliente);
-
-            //Cambiar nombre de metodo de tickets disponibles
+;
+            //TODO Cambiar nombre de metodo de tickets disponibles
 
             Collection<Ticket> ticketsDisponibles = ticketService.getTicketsDisponibles(reservaCreationRequest.getIdEvento(), reservaCreationRequest.getCantidadDeTickets());
             Double precioFinal = 0d;
@@ -64,6 +64,8 @@ public class ReservaController {
                 ticketService.crearTicket(ticket);
             }
 
+            //TODO Ver si es necesario usar reserva creation success
+
             reservaCreationSuccess.setTicketsComprados((ArrayList<Ticket>) ticketsDisponibles);
             reservaCreationSuccess.setPrecioTotal(precioFinal);
             reserva.setPrecioFinal(precioFinal);
@@ -73,7 +75,7 @@ public class ReservaController {
         }
         else
             {
-                return ResponseEntity.ok()
+                return ResponseEntity.badRequest()
                         .body("No hay tickets disponibles");
             }
     }
