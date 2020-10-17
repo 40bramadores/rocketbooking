@@ -60,7 +60,12 @@ public class EventoController {
     public ResponseEntity<?> getEvento (@PathVariable("id") Integer id)
     {
         Optional<Evento> eventoObtenido = eventoService.getEvento(id);
-        return new ResponseEntity(eventoObtenido, HttpStatus.OK);
+        if (eventoObtenido.isPresent())
+        {
+            return new ResponseEntity(eventoObtenido, HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest()
+                .body("No existe ese evento");
     }
 
     @GetMapping(path = "{id}/tickets")
@@ -73,10 +78,7 @@ public class EventoController {
                     .status(HttpStatus.OK)
                     .body(ticketService.getCantidadDeTicketsDisponibles(id));
         }
-        else
-        {
-            return ResponseEntity.noContent().build();
-        }
+        return ResponseEntity.badRequest().body("No hay tickets disponibles");
     }
 
     @GetMapping

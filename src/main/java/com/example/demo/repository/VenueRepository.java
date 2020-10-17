@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VenueRepository extends CrudRepository<Venue, Integer> {
-//    @Query("SELECT ")
-//    public int getCantidadDeTicketsDisponibles (Integer id);
+
 }

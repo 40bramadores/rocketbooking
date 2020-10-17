@@ -73,11 +73,8 @@ public class ReservaController {
 
             return new ResponseEntity(reservaCreationSuccess, HttpStatus.CREATED);
         }
-        else
-            {
-                return ResponseEntity.badRequest()
+        return ResponseEntity.badRequest()
                         .body("No hay tickets disponibles");
-            }
     }
 
     @GetMapping(path = "{id}")
@@ -86,14 +83,22 @@ public class ReservaController {
     {
         Optional<Reserva> reservaObtenido = reservaService.getReserva(id);
 
-        Double precioFinal = 0d;
-        for (Ticket ticket : reservaObtenido.get().getTickets())
-        {
-            precioFinal += ticket.getPrecio();
-        }
+        Double precioFinal = reservaService.calculateFinalPrice(reservaObtenido.get().getTickets());
         reservaObtenido.get().setPrecioFinal(precioFinal);
 
         return new ResponseEntity(reservaObtenido, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "cliente{id}")
+    @ResponseBody
+    public ResponseEntity getReservationsByClientId (@PathVariable("id") Integer id)
+    {
+        Optional<Cliente> cliente = clienteService.getCliente(id);
+        if (cliente.isPresent())
+        {
+            return ResponseEntity.ok(reservaService.getReservationsByClientId(id));
+        }
+        return ResponseEntity.badRequest().body("No existe ese cliente");
     }
 
     @DeleteMapping(path = "{id}")
@@ -101,7 +106,7 @@ public class ReservaController {
     {
         Optional<Reserva> reservaObtenido = reservaService.getReserva(id);
 
-        if (reservaObtenido != null)
+        if (reservaObtenido.isPresent())
         {
             for (Ticket ticket : reservaObtenido.get().getTickets())
             {
@@ -110,9 +115,6 @@ public class ReservaController {
             reservaService.borrarReserva(id);
             return new ResponseEntity(HttpStatus.OK);
         }
-        else
-        {
-            return ResponseEntity.noContent().build();
-        }
+        return ResponseEntity.badRequest().body("No existe esa reserva");
     }
 }
