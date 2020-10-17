@@ -7,6 +7,7 @@ import com.example.demo.model.Venue;
 import com.example.demo.service.EventoService;
 import com.example.demo.service.TicketService;
 import com.example.demo.service.VenueService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -19,9 +20,14 @@ import java.util.Optional;
 @RestController
 public class EventoController {
 
-    private final EventoService eventoService;
-    private final TicketService ticketService;
-    private final VenueService venueService;
+    @Autowired
+    EventoService eventoService;
+
+    @Autowired
+    TicketService ticketService;
+
+    @Autowired
+    VenueService venueService;
 
     public EventoController(EventoService eventoService, TicketService ticketService, VenueService venueService) {
         this.eventoService = eventoService;

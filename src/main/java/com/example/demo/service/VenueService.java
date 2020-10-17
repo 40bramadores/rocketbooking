@@ -21,6 +21,8 @@ public class VenueService {
 
     public Optional<Venue> getVenue (Integer id) { return venueRepository.findById(id); }
 
+    public void deleteVenue(Integer id) { venueRepository.deleteById(id); }
+
     public Iterable<Venue> getAllVenue () { return venueRepository.findAll(); }
 }
 

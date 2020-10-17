@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Cliente;
 import com.example.demo.service.ClienteService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -16,9 +17,8 @@ import java.util.Optional;
 @RestController
 public class ClienteController {
 
-    private final ClienteService clienteService;
-
-    public ClienteController(ClienteService clienteService) { this.clienteService = clienteService; }
+    @Autowired
+    ClienteService clienteService;
 
     @PostMapping
     public ResponseEntity<?> crearCliente (@NonNull @RequestBody Cliente cliente)
