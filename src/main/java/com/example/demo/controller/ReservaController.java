@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("api/v1/reserva")
@@ -54,12 +55,11 @@ public class ReservaController {
             //TODO Cambiar nombre de metodo de tickets disponibles
 
             Collection<Ticket> ticketsDisponibles = ticketService.getTicketsDisponibles(reservaCreationRequest.getIdEvento(), reservaCreationRequest.getCantidadDeTickets());
-            Double precioFinal = 0d;
-            ReservaCreationSuccess reservaCreationSuccess = new ReservaCreationSuccess(0d, null);
+            Double precioFinal = reservaService.calculateFinalPrice((List<Ticket>) ticketsDisponibles);
+            ReservaCreationSuccess reservaCreationSuccess = new ReservaCreationSuccess(precioFinal, null);
 
             for (Ticket ticket : ticketsDisponibles)
             {
-                precioFinal += ticket.getPrecio();
                 ticket.setReserva(reserva);
                 ticketService.crearTicket(ticket);
             }
@@ -67,8 +67,6 @@ public class ReservaController {
             //TODO Ver si es necesario usar reserva creation success
 
             reservaCreationSuccess.setTicketsComprados((ArrayList<Ticket>) ticketsDisponibles);
-            reservaCreationSuccess.setPrecioTotal(precioFinal);
-            reserva.setPrecioFinal(precioFinal);
             reservaService.crearReserva(reserva);
 
             return new ResponseEntity(reservaCreationSuccess, HttpStatus.CREATED);
