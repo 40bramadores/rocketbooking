@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RequestMapping("api/v1/venue")
+@RequestMapping("api/${api.version}/venue")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class VenueController {

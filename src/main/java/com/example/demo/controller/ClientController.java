@@ -11,7 +11,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
-@RequestMapping("api/v1/client")
+@RequestMapping("api/${api.version}/client")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ClientController {

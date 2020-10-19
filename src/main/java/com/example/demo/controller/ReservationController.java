@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("api/v1/reservation")
+@RequestMapping("api/${api.version}/reservation")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ReservationController {

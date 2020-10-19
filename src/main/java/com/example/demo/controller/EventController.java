@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RequestMapping("api/v1/event")
+@RequestMapping("api/${api.version}/event")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class EventController {
