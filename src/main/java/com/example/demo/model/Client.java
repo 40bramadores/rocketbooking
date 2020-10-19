@@ -10,32 +10,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Cliente")
-public class Cliente {
+@Table(name = "Client")
+public class Client {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column (name = "nombre", nullable = false)
-    private String nombre;
+    @Column (name = "name", nullable = false)
+    private String name;
 
     @Column (name = "email", nullable =  false)
     private String email;
 
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Reserva> reservas = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
 
     @Autowired
-    public Cliente(String nombre, String email) {
-        this.nombre = nombre;
+    public Client(String name, String email) {
+        this.name = name;
         this.email = email;
     }
 
     @Autowired
-    public Cliente() {
+    public Client() {
 
     }
 
@@ -47,12 +47,12 @@ public class Cliente {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -64,7 +64,7 @@ public class Cliente {
     }
 
     @JsonIgnore
-    public List<Reserva> getReservas() {
-        return reservas;
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 }

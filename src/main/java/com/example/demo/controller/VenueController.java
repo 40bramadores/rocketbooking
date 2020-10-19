@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.model.Venue;
 import com.example.demo.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -18,24 +20,26 @@ public class VenueController {
     @Autowired
     VenueService venueService;
 
+    @Autowired
+    MessageSource messageSource;
+
     @PostMapping
-    public ResponseEntity<Venue> crearVenue (@NonNull @RequestBody Venue venue)
+    public ResponseEntity<Venue> createVenue (@NonNull @RequestBody Venue venue)
     {
-        Venue venueCreado = venueService.crearVenue(venue);
-        return new ResponseEntity(venueCreado, HttpStatus.CREATED);
+        return new ResponseEntity(venueService.createVenue(venue), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "{id}")
     @ResponseBody
     public ResponseEntity<?> getVenue (@PathVariable("id") Integer id)
     {
-        Optional<Venue> venueObtenido = venueService.getVenue(id);
-        if (venueObtenido.isPresent())
+        Optional<Venue> venueFound = venueService.getVenue(id);
+        if (venueFound.isPresent())
         {
-            return new ResponseEntity(venueObtenido, HttpStatus.OK);
+            return new ResponseEntity(venueFound, HttpStatus.OK);
         }
         return ResponseEntity.badRequest()
-                .body("No existe esa venue");
+                .body(messageSource.getMessage("noVenueFound", null, LocaleContextHolder.getLocale()));
     }
 
     @DeleteMapping(path = "{id}")
@@ -43,20 +47,20 @@ public class VenueController {
     {
         if (venueService.getVenue(id).isPresent())
         {
-        venueService.deleteVenue(id);
-        return new ResponseEntity(HttpStatus.OK);
+            venueService.deleteVenue(id);
+            return new ResponseEntity(HttpStatus.OK);
         }
 
         return ResponseEntity.badRequest()
-                .body("No existe esa venue");
+                .body(messageSource.getMessage("noVenueFound", null, LocaleContextHolder.getLocale()));
     }
     
     @GetMapping
     @ResponseBody
-    public ResponseEntity getAllVenue ()
+    public ResponseEntity getAllVenues ()
     {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(venueService.getAllVenue());
+                .body(venueService.getAllVenues());
     }
 }

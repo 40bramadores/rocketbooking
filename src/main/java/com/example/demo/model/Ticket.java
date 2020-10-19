@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -15,22 +14,22 @@ public class Ticket {
     @Column
     private Integer id;
 
-    @Column (name = "precio", nullable = false)
-    private Double precio;
+    @Column (name = "price", nullable = false)
+    private Double price;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn (name = "reserva_id")
-    private Reserva reserva;
+    @JoinColumn (name = "reservation_id")
+    private Reservation reservation;
 
     @ManyToOne
-    @JoinColumn (name = "evento_id")
-    private Evento evento;
+    @JoinColumn (name = "event_id")
+    private Event event;
 
     @Autowired
-    public Ticket(double precio, Reserva reserva, Evento evento) {
-        this.precio = precio;
-        this.reserva = reserva;
-        this.evento = evento;
+    public Ticket(double price, Reservation reservation, Event event) {
+        this.price = price;
+        this.reservation = reservation;
+        this.event = event;
     }
 
     @Autowired
@@ -46,27 +45,27 @@ public class Ticket {
         this.id = id;
     }
 
-    public Reserva getReserva() {
-        return reserva;
+    public Reservation getReservation() {
+        return reservation;
     }
 
-    public void setReserva(Reserva reserva) {
-        this.reserva = reserva;
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public Evento getEvento() {
-        return evento;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setEvento(Evento evento) {
-        this.evento = evento;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

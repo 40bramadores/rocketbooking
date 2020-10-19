@@ -5,33 +5,33 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Evento")
-public class Evento {
+@Table(name = "Event")
+public class Event {
 
     @Id
     @Column
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "fechaDeRealizacion", nullable = false)
-    private LocalDate fecha;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "venue_id")
     private Venue venue;
 
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "description")
+    private String description;
 
     @Autowired
-    public Evento(LocalDate fecha, Venue venue, String descripcion) {
-        this.fecha = fecha;
+    public Event(LocalDate date, Venue venue, String description) {
+        this.date = date;
         this.venue = venue;
-        this.descripcion = descripcion;
+        this.description = description;
     }
 
     @Autowired
-    public Evento () {
+    public Event() {
 
     }
 
@@ -43,12 +43,12 @@ public class Evento {
         this.id = id;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Venue getVenue() {
@@ -59,11 +59,11 @@ public class Evento {
         this.venue = venue;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

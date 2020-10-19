@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Reserva")
-public class Reserva {
+@Table(name = "Reservation")
+public class Reservation {
 
     @Id
     @Column
@@ -19,24 +19,24 @@ public class Reserva {
     private Integer id;
 
     @Transient
-    private Double precioFinal;
+    private Double finalPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "cliente_id")
-    private Cliente cliente;
+    @JoinColumn (name = "client_id")
+    private Client client;
 
-    @OneToMany(mappedBy = "reserva", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Ticket> tickets = new ArrayList<>();
 
     @Autowired
-    public Reserva(Double precioFinal, Cliente cliente) {
-        this.precioFinal = precioFinal;
-        this.cliente = cliente;
+    public Reservation(Double finalPrice, Client client) {
+        this.finalPrice = finalPrice;
+        this.client = client;
     }
 
     @Autowired
-    public Reserva () {
+    public Reservation() {
 
     }
 
@@ -48,20 +48,20 @@ public class Reserva {
         this.id = id;
     }
 
-    public Double getPrecioFinal() {
-        return precioFinal;
+    public Double getFinalPrice() {
+        return finalPrice;
     }
 
-    public void setPrecioFinal(Double precio) {
-        this.precioFinal = precio;
+    public void setFinalPrice(Double price) {
+        this.finalPrice = price;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Client getClient() {
+        return client;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @JsonIgnore

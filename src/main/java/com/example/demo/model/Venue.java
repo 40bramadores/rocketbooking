@@ -17,16 +17,16 @@ public class Venue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "description")
+    private String description;
 
     @OneToMany(mappedBy = "venue", fetch = FetchType.LAZY)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Evento> eventos = new ArrayList<>();
+    private List<Event> events = new ArrayList<>();
 
     @Autowired
-    public Venue(String descripcion) {
-        this.descripcion = descripcion;
+    public Venue(String description) {
+        this.description = description;
     }
 
     @Autowired
@@ -42,11 +42,11 @@ public class Venue {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

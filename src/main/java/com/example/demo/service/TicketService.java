@@ -14,19 +14,19 @@ public class TicketService {
    @Autowired
    TicketRepository ticketRepository;
 
-   public Ticket crearTicket (Ticket ticket)
+   public Ticket createTicket (Ticket ticket)
    {
       return ticketRepository.save(ticket);
    }
 
-   public Collection<Ticket> getCantidadDeTicketsDisponibles (Integer idEvento)
+   public Collection<Ticket> getAvailableTickets (Integer idEvent)
    {
-      return ticketRepository.findByReservaIsNull(idEvento);
+      return ticketRepository.findByReservationIsNull(idEvent);
    }
 
-   public Collection<Ticket>  getTicketsDisponibles (Integer idEvento, Integer cantidad)
+   public Collection<Ticket>  getAvailableTickets (Integer idEvent, Integer quantity)
    {
-      return ticketRepository.findXByReservaIsNull(idEvento, cantidad);
+      return ticketRepository.findByReservationIsNull(idEvent, quantity);
    }
 
 }

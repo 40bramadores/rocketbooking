@@ -14,7 +14,7 @@ public class VenueService {
     @Autowired
     VenueRepository venueRepository;
 
-    public Venue crearVenue (Venue venue)
+    public Venue createVenue (Venue venue)
     {
         return venueRepository.save(venue);
     }
@@ -23,6 +23,6 @@ public class VenueService {
 
     public void deleteVenue(Integer id) { venueRepository.deleteById(id); }
 
-    public Iterable<Venue> getAllVenue () { return venueRepository.findAll(); }
+    public Iterable<Venue> getAllVenues () { return venueRepository.findAll(); }
 }
 
